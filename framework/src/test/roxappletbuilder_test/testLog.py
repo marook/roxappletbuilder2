@@ -25,3 +25,6 @@ class SetUpLoggingTest(unittest.TestCase):
 
     def testSetUpLogging(self):
         setUpLogging('roxappletbuilder_test')
+
+    def testNoneLogNameFail(self):
+        self.assertRaises(Exception, setUpLogging, None)

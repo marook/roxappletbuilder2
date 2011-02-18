@@ -1,0 +1,6 @@
+testSetUpLogging (roxappletbuilder_test.testLog.SetUpLoggingTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

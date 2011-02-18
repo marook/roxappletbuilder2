@@ -61,7 +61,7 @@ class Report(object):
         return os.path.join(self.reportDir, 'tests.txt')
 
 def sourceFiles():
-    yield os.path.join(bindir, 'roxappletbuilder2')
+    # yield os.path.join(bindir, 'roxappletbuilder2')
     
     sourceFilePattern = re.compile('^.*[.]py$')
     for root, dirs, files in os.walk(moddir):
@@ -70,6 +70,29 @@ def sourceFiles():
                 continue
 
             yield os.path.join(root, f)
+
+def fullSplit(p):
+    head, tail = os.path.split(p)
+
+    if(len(head) > 0):
+        for n in fullSplit(head):
+            yield n
+
+    yield tail
+
+def testModules():
+    testFilePattern = re.compile('^(test.*)[.]py$', re.IGNORECASE)
+
+    for root, dirs, files in os.walk(testdir):
+        for f in files:
+            m = testFilePattern.match(f)
+
+            if(not m):
+                continue
+
+            relDir = os.path.relpath(root, testdir)
+
+            yield '.'.join([n for n in fullSplit(relDir)] + [m.group(1), ])
 
 def printFile(fileName):
     if(not os.path.exists(fileName)):
@@ -93,13 +116,15 @@ class test(Command):
     def run(self):
         report = Report()
 
-        testPyMatcher = re.compile('(.*/)?test[^/]*[.]py', re.IGNORECASE)
+        #testPyMatcher = re.compile('(.*/)?test[^/]*[.]py', re.IGNORECASE)
 
-        tests = ['.'.join([
-                basename(testdir), splitext(basename(f))[0]
-        ]) for f in glob(pjoin(
-                testdir, '*.py'
-        )) if testPyMatcher.match(f)]
+        #tests = ['.'.join([
+        #        basename(testdir), splitext(basename(f))[0]
+        #]) for f in glob(pjoin(
+        #        testdir, '*.py'
+        #)) if testPyMatcher.match(f)]
+
+        tests = [m for m in testModules()]
 
         print "..using:"
         print "  testdir:", testdir
@@ -107,7 +132,8 @@ class test(Command):
         print "  sys.path:", sys.path
         print
         sys.path.insert(0, moddir)
-        sys.path.insert(0, srcdir)
+        #sys.path.insert(0, srcdir)
+        sys.path.insert(0, testdir)
 
         # configure logging
         # TODO not sure how to enable this... it's a bit complicate to enable
@@ -118,6 +144,10 @@ class test(Command):
         #    log_config.setUpLogging()
 
         suite = TestLoader().loadTestsFromNames(tests)
+
+        print 'suites'
+        for s in suite:
+            print 'suite: %s' % s
 
         with open(report.unitTestReportFileName, 'w') as testResultsFile:
             r = TextTestRunner(stream = testResultsFile, verbosity = self._verbosity)

@@ -18,7 +18,7 @@
 # along with roxappletbuilder2.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from roxappletbuilder2.log import setUpLogging
+from roxappletbuilder.log import setUpLogging
 import gtk
 
 def main(app):

@@ -25,6 +25,7 @@ def main(app):
     setUpLogging(app.name)
 
     if(app.xid is None):
+        # TODO quit app when window is closed
         w = gtk.Window()
         w.add(app.rootWidget)
         w.show_all()

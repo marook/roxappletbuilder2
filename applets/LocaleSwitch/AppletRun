@@ -21,7 +21,18 @@
 from roxappletbuilder.main import main
 import gtk
 
+class State(object):
+
+    def __init__(self, iconPath, activateScript):
+        self.iconPath = iconPath
+        self.activateScript = activateScript
+
+    def activate(self):
+        # TODO
+        pass
+
 class LocaleSwitchApp(object):
+    # TODO separate UI and state logic into two artifacts
 
     def _exitApp(self):
         import sys
@@ -33,8 +44,7 @@ class LocaleSwitchApp(object):
         self._exitApp()
 
     def _switchState(self, event):
-        # TODO
-        pass
+        self.applyNextState()
 
     def _createMenu(self):
         m = gtk.Menu()
@@ -66,23 +76,63 @@ class LocaleSwitchApp(object):
         else:
             self.xid = int(args[0])
 
+    def _determineActiveState(self):
+        # TODO
+        return self.states[0]
+
     def __init__(self):
         self.name = 'LocaleSwitch'
         self._parseOptions()
         self._rootWidget = None
+
+        # TODO replace absolute image paths with image path resolution mechanism
+        self.states = [
+            State('/home/marook/work/images/icons/Flag_of_Germany.svg', '/home/marook/apps/scripts/switch_kb_de'),
+            State('/home/marook/work/images/icons/Flag_of_the_United_States.svg', '/home/marook/apps/scripts/switch_kb_en')
+            ]
+
+    def showState(self, state):
+        self.activeState = state
+
+        # TODO put into separate method
+        pixBuf = gtk.gdk.pixbuf_new_from_file(state.iconPath)
+        pixBuf = pixBuf.scale_simple(32, 16, gtk.gdk.INTERP_BILINEAR)
+        stateImage = gtk.Image()
+        stateImage.set_from_pixbuf(pixBuf)
+
+        self.switch.set_image(stateImage)
+
+    def reloadState(self):
+        currentState = self._determineActiveState()
+
+        self.showState(currentState)
+
+    def applyState(self, state):
+        # TODO indicate state change in UI
+        # TODO do non UI blocking state activation
+        state.activate()
+
+        self.showState(state)
+
+    def applyNextState(self):
+        i = self.states.index(self.activeState)
+
+        newState = self.states[(i + 1) % len(self.states)]
+
+        self.applyState(newState)
 
     @property
     def rootWidget(self):
         if(self._rootWidget is None):
             menu = self._createMenu()
 
-            switch = gtk.Button()
-            switch.connect('clicked', self._switchState)
-            switch.connect_object('button-press-event', self.__contextMenuCallback, menu)
+            self.switch = gtk.Button()
+            self.switch.connect('clicked', self._switchState)
+            self.switch.connect_object('button-press-event', self.__contextMenuCallback, menu)
 
-            # TODO init button with initial state
+            self.reloadState()
 
-            self._rootWidget = switch
+            self._rootWidget = self.switch
 
         return self._rootWidget
 

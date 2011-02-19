@@ -20,6 +20,7 @@
 
 from roxappletbuilder.log import setUpLogging
 import gtk
+import logging
 
 def main(app):
     setUpLogging(app.name)

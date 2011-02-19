@@ -146,6 +146,7 @@ class LocaleSwitchApp(object):
 
         # TODO put into separate method
         pixBuf = gtk.gdk.pixbuf_new_from_file(state.iconPath)
+        # TODO specify icon res somehow dynamically
         pixBuf = pixBuf.scale_simple(32, 16, gtk.gdk.INTERP_BILINEAR)
         stateImage = gtk.Image()
         stateImage.set_from_pixbuf(pixBuf)

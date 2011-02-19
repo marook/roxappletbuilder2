@@ -33,10 +33,57 @@ class State(object):
         logging.debug('Activate state by calling script %s' % self.activateScript)
         os.system(self.activateScript)
 
+class Monitor(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+class PollMonitor(Monitor):
+
+    # TODO synchronize self.timer access
+
+    def _reloadState(self):
+        self.timer = None
+
+        logging.debug('PollMonitor is reloading state')
+
+        gtk.gdk.threads_enter()
+        try:
+            self.app.reloadState()
+        finally:
+            gtk.gdk.threads_leave()
+
+        self._scheduleReload()
+
+    def _scheduleReload(self):
+        import threading
+
+        self.timer = threading.Timer(10.0, self._reloadState)
+        self.timer.start()
+
+    def setUp(self):
+        logging.debug('Launching poll monitor')
+
+        self._scheduleReload()
+
+    def tearDown(self):
+        if(not self.timer is None):
+            self.timer.cancel()
+
 class LocaleSwitchApp(object):
     # TODO separate UI and state logic into two artifacts
 
     def _exitApp(self):
+        for m in self._monitors:
+            m.tearDown()
+        self._monitors = []
+
         import sys
 
         # TODO is there some kind of gtk.quit()?
@@ -86,11 +133,12 @@ class LocaleSwitchApp(object):
         self.name = 'LocaleSwitch'
         self._parseOptions()
         self._rootWidget = None
+        self._monitors = []
 
         # TODO replace absolute image paths with image path resolution mechanism
         self.states = [
-            State('/home/marook/work/images/icons/Flag_of_Germany.svg', '/home/marook/apps/scripts/switch_kb_de'),
-            State('/home/marook/work/images/icons/Flag_of_the_United_States.svg', '/home/marook/apps/scripts/switch_kb_en')
+            State('/home/marook/work/images/icons/Flag_of_the_United_States.svg', '/home/marook/apps/scripts/switch_kb_en'),
+            State('/home/marook/work/images/icons/Flag_of_Germany.svg', '/home/marook/apps/scripts/switch_kb_de')
             ]
 
     def showState(self, state):
@@ -135,6 +183,10 @@ class LocaleSwitchApp(object):
             self.reloadState()
 
             self._rootWidget = self.switch
+
+            #m = PollMonitor(self)
+            #self._monitors.append(m)
+            #m.setUp()
 
         return self._rootWidget
 

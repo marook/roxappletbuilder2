@@ -24,6 +24,8 @@ import gtk
 def main(app):
     setUpLogging(app.name)
 
+    gtk.gdk.threads_init()
+
     if(app.xid is None):
         # TODO quit app when window is closed
         w = gtk.Window()

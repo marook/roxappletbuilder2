@@ -20,6 +20,8 @@
 
 from roxappletbuilder.main import main
 import gtk
+import logging
+import os
 
 class State(object):
 
@@ -28,8 +30,8 @@ class State(object):
         self.activateScript = activateScript
 
     def activate(self):
-        # TODO
-        pass
+        logging.debug('Activate state by calling script %s' % self.activateScript)
+        os.system(self.activateScript)
 
 class LocaleSwitchApp(object):
     # TODO separate UI and state logic into two artifacts

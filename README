@@ -1,0 +1,29 @@
+roxappletbuilder -  applets for rox filer panel + framework
+
+1) Content
+2) Installation
+3) Contact
+
+---------------------------------------------------------------------
+Content
+
+This project consists of a framework for implementing rox filer applets and
+some demo applets.
+
+The framework can be found below the 'framework' directory. The applets are
+located in the 'applets' directory.
+
+---------------------------------------------------------------------
+Installation
+
+Before you can use the rox filer applets you have to install the
+roxappletbuilder framework. To install the framework check out the file
+framework/README.
+
+Installation instructions for the applets can be found in the applet
+directories.
+
+---------------------------------------------------------------------
+Contact
+
+* author: Markus Pielmeier <markus.pielmeier@googlemail.com>

@@ -228,7 +228,7 @@ setup(
         'Programming Language :: Python'
     ],
     data_files = [
-        (pjoin('share', 'doc', 'tagfs'), ['AUTHORS', 'COPYING'])
+        (pjoin('share', 'doc', 'tagfs'), [pjoin('..', 'AUTHORS'), pjoin('..', 'COPYING')])
     ],
     # TODO maybe we should include src/bin/*?
     #scripts = [pjoin(bindir, 'tagfs')],

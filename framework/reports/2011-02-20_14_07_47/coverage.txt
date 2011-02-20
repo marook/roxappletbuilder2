@@ -1,0 +1,13 @@
+Name                                          Stmts   Exec  Cover   Missing
+---------------------------------------------------------------------------
+src/modules/__init__                              1      0     0%   1
+src/modules/roxappletbuilder/__init__             1      0     0%   1
+src/modules/roxappletbuilder/log                 17      9    52%   21-25, 29-35
+src/modules/roxappletbuilder/main                16      0     0%   21-45
+src/modules/roxappletbuilder/resource            10      5    50%   21-23, 26-28, 31
+src/modules/roxappletbuilder/state/__init__       1      0     0%   1
+src/modules/roxappletbuilder/state/app           67      0     0%   21-132
+src/modules/roxappletbuilder/state/monitor       26      0     0%   21-62
+src/modules/roxappletbuilder/state/states         9      0     0%   21-32
+---------------------------------------------------------------------------
+TOTAL                                           148     14     9%   

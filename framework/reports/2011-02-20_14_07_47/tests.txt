@@ -1,0 +1,10 @@
+testNoneLogNameFail (roxappletbuilder_test.testLog.SetUpLoggingTest) ... ok
+testSetUpLogging (roxappletbuilder_test.testLog.SetUpLoggingTest) ... ok
+testRelativeResourcePathIsAbsoluteFail (roxappletbuilder_test.testResource.ResourceResolverConstructorTests) ... ok
+testRelativeResourcePathIsNoneFail (roxappletbuilder_test.testResource.ResourceResolverConstructorTests) ... ok
+testRelativeResourcePathResolve (roxappletbuilder_test.testResource.ResourceResolverConstructorTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+OK

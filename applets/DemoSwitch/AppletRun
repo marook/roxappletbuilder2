@@ -25,6 +25,7 @@ from roxappletbuilder.resource import ResourceResolver
 import os
 
 class DemoSwitchApp(StateApp):
+
     def _determineActiveState(self):
         # TODO
         return self.states[0]

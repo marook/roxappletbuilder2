@@ -22,23 +22,19 @@ from roxappletbuilder.main import main
 from roxappletbuilder.state.states import State
 from roxappletbuilder.state.app import StateApp
 from roxappletbuilder.resource import ResourceResolver
+import os
 
-class LocaleSwitchApp(StateApp):
-
+class DemoSwitchApp(StateApp):
     def _determineActiveState(self):
         # TODO
         return self.states[0]
 
     def __init__(self):
-        def createSetLayoutCmd(layout):
-            return 'setxkbmap -layout %s' % layout
+        cmd = 'sleep 1'
 
-        states = [
-            State('res/Flag_of_the_United_States.svg', createSetLayoutCmd('us')),
-            State('res/Flag_of_Germany.svg', createSetLayoutCmd('de'))
-            ]
+        states = [State(os.path.join('res', icon), cmd) for icon in ['BlueCircle.png', 'GreenSquare.png', 'OrangeCircle.png', 'OrangeSquare.png']]
 
-        super(LocaleSwitchApp, self).__init__('LocaleSwitch', states, ResourceResolver(__file__))
+        super(DemoSwitchApp, self).__init__('DemoSwitch', states, ResourceResolver(__file__))
 
 if(__name__ == '__main__'):
-    main(LocaleSwitchApp())
+    main(DemoSwitchApp())

@@ -23,6 +23,7 @@ import gtk
 import logging
 
 class StateApp(object):
+    # TODO separate UI and state logic into two artifacts
 
     def __init__(self, name, states, resourceResolver):
         self.name = name

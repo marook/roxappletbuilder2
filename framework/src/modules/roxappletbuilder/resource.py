@@ -21,12 +21,16 @@
 import os.path
 
 def resolveAppDirectory(appletRunFile):
-    return os.path.basename(appletRunFile)
+    d = os.path.dirname(os.path.abspath(appletRunFile))
+
+    assert os.path.isdir(d), '%s should be the app directory!' % d
+
+    return d
 
 class ResourceResolver(object):
 
     def __init__(self, appletRunFile):
-        self.resourceDirectory = os.path.join(resolveAppDirectory(appletRunFile), 'res')
+        self.resourceDirectory = resolveAppDirectory(appletRunFile)
 
     def getResourcePath(self, relativeResourcePath):
         if(os.path.isabs(relativeResourcePath)):

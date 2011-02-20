@@ -30,7 +30,7 @@ class ResourceResolverConstructorTests(unittest.TestCase):
     def testAppletRunFileIsNoneFail(self):
         self.assertRaises(Exception, ResourceResolver.__init__, None)
 
-class ResourceResolverConstructorTests(unittest.TestCase):
+class ResourceResolverTests(unittest.TestCase):
 
     def setUp(self):
         self.rr = ResourceResolver(__file__)
@@ -43,6 +43,6 @@ class ResourceResolverConstructorTests(unittest.TestCase):
         self.assertRaises(Exception, self.rr.getResourcePath, os.path.abspath('.'))
 
     def testRelativeResourcePathResolve(self):
-        demoResPath = self.rr.getResourcePath('demoResource.txt')
+        demoResPath = self.rr.getResourcePath(os.path.join('res', 'demoResource.txt'))
 
-        self.assertTrue('Invalid path %s' % demoResPath, os.path.exists(demoResPath))
+        self.assertTrue(os.path.exists(demoResPath), 'Invalid path %s' % demoResPath)

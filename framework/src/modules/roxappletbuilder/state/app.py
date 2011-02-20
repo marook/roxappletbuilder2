@@ -24,11 +24,12 @@ import logging
 
 class StateApp(object):
 
-    def __init__(self, name, states):
+    def __init__(self, name, states, resourceResolver):
         self.name = name
         self._monitors = []
         self.states = states
         self._rootWidget = None
+        self.resourceResolver = resourceResolver
 
         self._parseOptions()
 
@@ -85,7 +86,7 @@ class StateApp(object):
         self.activeState = state
 
         # TODO put into separate method
-        pixBuf = gtk.gdk.pixbuf_new_from_file(state.iconPath)
+        pixBuf = gtk.gdk.pixbuf_new_from_file(self.resourceResolver.getResourcePath(state.iconPath))
         # TODO specify icon res somehow dynamically
         pixBuf = pixBuf.scale_simple(32, 16, gtk.gdk.INTERP_BILINEAR)
         stateImage = gtk.Image()

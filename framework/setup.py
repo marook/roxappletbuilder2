@@ -232,6 +232,6 @@ setup(
     ],
     # TODO maybe we should include src/bin/*?
     #scripts = [pjoin(bindir, 'tagfs')],
-    packages = ['roxappletbuilder'],
+    packages = ['roxappletbuilder', 'roxappletbuilder.state'],
     package_dir = {'': moddir},
 )
